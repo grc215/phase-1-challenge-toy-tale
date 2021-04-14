@@ -82,14 +82,13 @@ form.addEventListener("submit", function(evt){
       body: JSON.stringify({
           name: whatUserTypedName,
           image: whatUserTypedImage,
-          like: 1
+          likes: 1
       })
   })
   .then(res => res.json())
   .then((newlyCreatedToyObj) => {
       appendToys(newlyCreatedToyObj)
     })
-  //})
 })
 
 
