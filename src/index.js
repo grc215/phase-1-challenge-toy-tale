@@ -27,8 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
       toyFormContainer.style.display = "none";
     }
   });
-});
-
 
 
 function appendToys(toyObj) {
@@ -39,7 +37,7 @@ function appendToys(toyObj) {
   let toyImg = document.createElement("img")
   toyImg.src = toyObj.image
   let toyLikesP = document.createElement("p")
-  toyLikesP = toyObj.likes + " likes"
+  toyLikesP.innerText = toyObj.likes + " likes"
   let likeButton = document.createElement("button")
   likeButton.innerText = "Like"
   likeButton.className = "like-btn"
@@ -51,6 +49,48 @@ function appendToys(toyObj) {
 
   toyBox.append(newToyCard)
 
-
+  likeButton.addEventListener("click", function(evt){
+  
+    fetch(`http://localhost:3000/toys/${toyObj.id}`, {
+        method: "PATCH", 
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            likes: toyObj.likes += 1
+        })
+    })
+    .then(res => res.json())
+    .then((updatedToyObj) => {
+        toyLikesP.innerText = updatedToyObj.likes + " likes"
+        toyObj.likes = updatedToyObj.likes
+      })
+  })
 
 }
+
+form.addEventListener("submit", function(evt){
+  evt.preventDefault()
+  let whatUserTypedName = evt.target.name.value
+  let whatUserTypedImage = evt.target.image.value
+
+  fetch("http://localhost:3000/toys", {
+      method: "POST", 
+      headers: {
+          "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+          name: whatUserTypedName,
+          image: whatUserTypedImage,
+          like: 1
+      })
+  })
+  .then(res => res.json())
+  .then((newlyCreatedToyObj) => {
+      appendToys(newlyCreatedToyObj)
+    })
+  //})
+})
+
+
+})
