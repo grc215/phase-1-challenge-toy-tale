@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
 
+  
   addBtn.addEventListener("click", () => {
     // hide & seek with the form
     addToy = !addToy;
@@ -28,11 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+
 function appendToys(toyObj) {
   let newToyCard = document.createElement("div")
   newToyCard.className = "card"
-  toyBox.append(newToyCard)
+  let toyNameHeader = document.createElement("h2")
+  toyNameHeader.innerText = toyObj.name
+  let toyImg = document.createElement("img")
+  toyImg.src = toyObj.image
+  let toyLikesP = document.createElement("p")
+  toyLikesP = toyObj.likes + " likes"
+  let likeButton = document.createElement("button")
+  likeButton.innerText = "Like"
+  likeButton.className = "like-btn"
+  likeButton.id = toyObj.id
   
+  toyImg.className = "toy-avatar"
+
+  newToyCard.append(toyNameHeader, toyImg, toyLikesP, likeButton)
+
+  toyBox.append(newToyCard)
+
 
 
 }
